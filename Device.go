@@ -268,7 +268,7 @@ func (dev *Device) SendSoap(endpoint string, xmlRequestBody string) (resp *http.
 	soap := gosoap.NewEmptySOAP()
 	soap.AddStringBodyContent(xmlRequestBody)
 	soap.AddRootNamespaces(Xlmns)
-	if dev.params.AuthMode == UsernameTokenAuth || dev.params.AuthMode == Both {
+	if dev.params.AuthMode == UsernameTokenAuth || dev.params.AuthMode == DigestAuth || dev.params.AuthMode == Both {
 		soap.AddWSSecurity(dev.params.Username, dev.params.Password)
 	}
 
