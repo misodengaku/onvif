@@ -5,6 +5,16 @@ import (
 	"github.com/misodengaku/onvif/xsd/onvif"
 )
 
+const (
+	StreamTypeRTPUnicast   = onvif.StreamType("RTP-Unicast")
+	StreamTypeRTPMulticast = onvif.StreamType("RTP-Multicast")
+
+	TransportProtocolUDP  = onvif.TransportProtocol("UDP")
+	TransportProtocolTCP  = onvif.TransportProtocol("TCP")
+	TransportProtocolRTSP = onvif.TransportProtocol("RTSP")
+	TransportProtocolHTTP = onvif.TransportProtocol("HTTP")
+)
+
 type Capabilities struct {
 	SnapshotUri           bool `xml:"SnapshotUri,attr"`
 	Rotation              bool `xml:"Rotation,attr"`
