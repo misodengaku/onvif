@@ -1,8 +1,8 @@
 package analytics
 
 import (
-	"github.com/IOTechSystems/onvif/xsd"
-	"github.com/IOTechSystems/onvif/xsd/onvif"
+	"github.com/misodengaku/onvif/xsd"
+	"github.com/misodengaku/onvif/xsd/onvif"
 )
 
 // GetSupportedAnalyticsModules and its properties are defined in the Onvif specification:

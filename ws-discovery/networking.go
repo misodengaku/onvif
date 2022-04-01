@@ -19,7 +19,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/IOTechSystems/onvif"
+	"github.com/misodengaku/onvif"
 
 	"github.com/beevik/etree"
 	"github.com/gofrs/uuid"

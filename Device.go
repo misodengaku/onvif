@@ -13,10 +13,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/IOTechSystems/onvif/device"
-	"github.com/IOTechSystems/onvif/gosoap"
-	"github.com/IOTechSystems/onvif/networking"
 	"github.com/beevik/etree"
+	"github.com/misodengaku/onvif/device"
+	"github.com/misodengaku/onvif/gosoap"
+	"github.com/misodengaku/onvif/networking"
 )
 
 //Xlmns XML Scheam

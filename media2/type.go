@@ -1,8 +1,8 @@
 package media2
 
 import (
-	"github.com/IOTechSystems/onvif/xsd"
-	"github.com/IOTechSystems/onvif/xsd/onvif"
+	"github.com/misodengaku/onvif/xsd"
+	"github.com/misodengaku/onvif/xsd/onvif"
 )
 
 type GetProfiles struct {

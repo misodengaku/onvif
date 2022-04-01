@@ -1,7 +1,7 @@
 package event
 
 import (
-	"github.com/IOTechSystems/onvif/xsd"
+	"github.com/misodengaku/onvif/xsd"
 )
 
 //GetServiceCapabilities action

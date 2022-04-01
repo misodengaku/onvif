@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/IOTechSystems/onvif"
-	"github.com/IOTechSystems/onvif/event"
-	"github.com/IOTechSystems/onvif/xsd"
 	"io/ioutil"
 	"log"
+
+	"github.com/misodengaku/onvif"
+	"github.com/misodengaku/onvif/event"
+	"github.com/misodengaku/onvif/xsd"
 )
 
 // Geovision

@@ -1,8 +1,8 @@
 package event
 
 import (
-	"github.com/IOTechSystems/onvif/event/topic"
-	"github.com/IOTechSystems/onvif/xsd"
+	"github.com/misodengaku/onvif/event/topic"
+	"github.com/misodengaku/onvif/xsd"
 )
 
 //Address Alias
