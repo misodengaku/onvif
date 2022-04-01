@@ -2,6 +2,8 @@ package onvif
 
 import (
 	"fmt"
+	"reflect"
+	"strings"
 
 	"github.com/misodengaku/onvif/analytics"
 	"github.com/misodengaku/onvif/device"
@@ -123,6 +125,30 @@ var AnalyticsFunctionMap = map[string]Function{
 	DeleteRules:       &analytics.DeleteRulesFunction{},
 	GetRuleOptions:    &analytics.GetRuleOptionsFunction{},
 	ModifyRules:       &analytics.ModifyRulesFunction{},
+}
+
+var packageNameToServiceNameMap = map[string]string{
+	"device":    DeviceWebService,
+	"event":     EventWebService,
+	"media":     MediaWebService,
+	"medis2":    Media2WebService,
+	"ptz":       PTZWebService,
+	"analytics": AnalyticsWebService,
+}
+
+func getServiceAndFunctionNameByStruct(method interface{}) (string, string, error) {
+	pkgPath := strings.Split(reflect.TypeOf(method).Elem().PkgPath(), "/")
+	pkg := strings.ToLower(pkgPath[len(pkgPath)-1])
+	pkgType := reflect.TypeOf(method)
+	if pkgType.Kind() != reflect.Ptr {
+		return "", "", fmt.Errorf("Argument must be a pointer of a struct")
+	}
+	funcName := pkgType.Elem().Name()
+	serviceName, ok := packageNameToServiceNameMap[pkg]
+	if !ok {
+		return "", "", fmt.Errorf("Unknown service for this struct: %s", pkg)
+	}
+	return serviceName, funcName, nil
 }
 
 func FunctionByServiceAndFunctionName(serviceName, functionName string) (Function, error) {

@@ -294,6 +294,52 @@ func createHttpRequest(endpoint string, soap string) (req *http.Request, err err
 	return req, nil
 }
 
+func (dev *Device) CallOnvifMethodWithStruct(method interface{}) (interface{}, error) {
+	serviceName, functionName, err := getServiceAndFunctionNameByStruct(method)
+	if err != nil {
+		return nil, err
+	}
+	function, err := FunctionByServiceAndFunctionName(serviceName, functionName)
+
+	endpoint, err := dev.GetEndpointByRequestStruct(method)
+	if err != nil {
+		return nil, err
+	}
+	requestBody, err := xml.MarshalIndent(method, "  ", "    ")
+	if err != nil {
+		return nil, err
+	}
+	xmlRequestBody := string(requestBody)
+
+	servResp, err := dev.SendSoap(endpoint, xmlRequestBody)
+	if err != nil {
+		return nil, fmt.Errorf("fail to send the '%s' request for the web service '%s', %v", functionName, serviceName, err)
+	}
+	defer servResp.Body.Close()
+
+	rsp, err := ioutil.ReadAll(servResp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	responseEnvelope, err := createResponse(function, rsp)
+	if err != nil {
+		return nil, fmt.Errorf("fail to create '%s' response for the web service '%s', %v", functionName, serviceName, err)
+	}
+
+	if servResp.StatusCode == http.StatusUnauthorized {
+		return nil, fmt.Errorf("fail to verify the authentication for the function '%s' of web service '%s'. Onvif error: %s",
+			functionName, serviceName, responseEnvelope.Body.Fault.String())
+	} else if servResp.StatusCode == http.StatusBadRequest {
+		return nil, fmt.Errorf("invalid request for the function '%s' of web service '%s'. Onvif error: %s",
+			functionName, serviceName, responseEnvelope.Body.Fault.String())
+	} else if servResp.StatusCode > http.StatusNoContent {
+		return nil, fmt.Errorf("fail to execute the request for the function '%s' of web service '%s'. Onvif error: %s",
+			functionName, serviceName, responseEnvelope.Body.Fault.String())
+	}
+	return responseEnvelope.Body.Content, nil
+}
+
 func (dev *Device) CallOnvifFunction(serviceName, functionName string, data []byte) (interface{}, error) {
 	function, err := FunctionByServiceAndFunctionName(serviceName, functionName)
 	if err != nil {
